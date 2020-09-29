@@ -1,0 +1,98 @@
+{% extends 'base.html.twig' %}
+{% block title %} PARTENAIRE {% endblock %}
+
+{% block stylesheets %}
+<style>
+
+formulaireInscription{
+    display: none;
+}
+formulaireModifClient{
+     display: none;
+}
+
+</style>
+{% endblock %}
+{% block body %}
+{% include "header.html.twig" %}
+
+			<div class="content">
+
+             <div class="d-md-flex align-items-md-start" >
+					<!-- Left sidebar component -->
+					<div class="sidebar sidebar-light bg-transparent sidebar-component sidebar-component-left wmin-300 border-0 shadow-0 sidebar-expand-md">
+
+						<!-- Sidebar content -->
+						<div class="sidebar-content" id=" ">
+							<!-- Navigation -->
+							<div class="card">
+								<div class="card-body p-0">
+									<ul class="nav nav-sidebar mb-2">
+										<li class="nav-item-header">Information Eleve</li>
+										<li class="nav-item">
+											<a href="#profile" class="nav-link active" data-toggle="tab">
+												<i class="icon-user"></i>
+												 Nom : 
+											</a>
+										</li>
+										<li class="nav-item">
+											<a href="#schedule" class="nav-link" data-toggle="tab">
+												<i class="icon-user"></i>
+												Prenom :
+												
+											</a>
+										</li>
+										<li class="nav-item">
+											<a href="#inbox" class="nav-link" data-toggle="tab">
+												<i class="icon-envelop2"></i>
+												date naissance:
+												
+											</a>
+										</li>
+										<li class="nav-item">
+											<a href="#orders" class="nav-link" data-toggle="tab">
+												<i class="icon-map-marker"></i>
+												classe :
+											
+											</a>
+										</li>
+										<li class="nav-item-divider"></li>
+										<li class="nav-item">
+											<a href="login_advanced.html" class="nav-link" data-toggle="tab">
+												<i class="icon-map-marker"></i>
+											sexe :
+											</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!-- /navigation -->
+						</div>
+						<!-- /sidebar content -->
+					</div>
+					<!-- /left sidebar component -->
+
+					<!-- Right content -->
+				
+				    	</div>
+					</div>
+					<!-- /right content -->
+				</div>
+				<!-- /inner container -->
+			</div>
+			<!-- /content area -->
+
+             
+            <div>
+            
+        
+             
+
+{% endblock %}
+{% block javascripts %}
+<script src="../../../../assets/inscription.js"></script>
+<script src="../../../../assets/ActionEleve.js"></script>
+<script src="../../../../assets/modification.js"></script>
+
+
+{% endblock %}

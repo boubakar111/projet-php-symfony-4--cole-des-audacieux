@@ -1,0 +1,162 @@
+{% extends 'base.html.twig' %}
+{% block title %}
+	PARTENAIRE
+{% endblock %}
+
+{% block stylesheets %}
+	<style>
+
+		formulaireInscription {
+			display: none;
+		}
+		formulaireModifClient {
+			display: none;
+		}
+	</style>
+{% endblock %}
+{% block body %}
+{% include "header.html.twig" %}
+
+<div
+	class="content">
+	<!-- Basic initialization -->
+	<div class="card" id="liste_parent_eleves" style="">
+		<div class="card-header header-elements-inline">
+			<h5 class="card-title">liste des Parents
+			</h5>
+			<div class="header-elements">
+				<div class="list-icons">
+					<a class="list-icons-item" data-action="collapse"></a>
+					<a class="list-icons-item" data-action="reload"></a>
+					<a class="list-icons-item" data-action="remove"></a>
+				</div>
+			</div>
+		</div>
+
+
+		<table class="table datatable-header-basic">
+			<thead>
+				<tr class="bg-danger">
+					<th>Civilite</th>
+					<th>First Name</th>
+					<th>Last Name</th>
+					<th>Adresse
+					</th>
+					<th>Telephone
+					</th>
+					<th>email
+					</th>
+					<th>Status Paiment</th>
+					<th class="text-center">Actions</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for parents in parent %}
+					<tr>
+
+						<td>
+							{{parents.civilite}}</td>
+						<td>
+							<a href="{{path('InforsParent_eleves',{id: parents.id})}}">{{parents.nom}}</a>
+						</td>
+						<td>
+							<a href="{{path('InforsParent_eleves',{id: parents.id})}}">{{parents.prenom}}</a>
+						</td>
+						<td>{{parents.adresse}}</td>
+						<td>{{parents.telephone}}</td>
+						<td>{{parents.email}}</td>
+						<td>{% set sum1 = 0 %}
+							{% set loopOutput %}
+							{% for r in parents.paiements %}
+								{% set sum1 = sum1 + r.montantRegle %}
+							{% endfor %}
+							{% endset %}
+
+							{{ loopOutput }}
+							{% if sum1 == 500 %}
+								<span class="badge badge-success">la somme et regler</span>
+							{% elseif sum1 < 500 %}
+								<span class="badge badge-danger">reste a regle:
+									{{ 500- sum1  }}</span>
+							{% elseif sum1 > 500 %}
+								<span class="badge badge-info">on vous doit:
+									{{ sum1 -500 }}</span>
+							{% endif %}
+						</td>
+
+
+						<td class="text-center">
+							<div class="list-icons">
+								<div class="dropdown">
+									<a href="#" class="list-icons-item" data-toggle="dropdown">
+										<i class="icon-menu9"></i>
+									</a>
+									<div class="dropdown-menu dropdown-menu-right">
+										<a href="#" value="{{parents.id}}" class="modifierParent ">
+											<i class="icon-file-pdf"></i>
+											Modifier
+										</a>
+									</br>
+									<a href="#" value="{{parents.id}}" class="ajouterPaiement">
+										<i class="icon-file-pdf"></i>
+										ajouter verssement</a>
+								</br>
+								<a href="#" value="{{parents.id}}" class="ajouterEleve">
+									<i class="icon-file-excel"></i>
+									inscrir un enfant</a>
+							</br>
+							<a href="#" value="{{parents.id}}" class="suprmierParentEleve">
+								<i class="icon-file-excel"></i>
+								suprimer</a>
+						</td>
+					</tr>
+				</br>
+				<a href="#" value="{{parents.id}}" class="dropdown-item">
+					<i class="icon-file-word"></i>
+					fiche.pdf</a>
+			</tbody>
+		</div>
+	</div>
+</div></td></tr>{% endfor %}</tbody></table></div><!-- /basic initialization --><!-- formulaire inscription  parents --><divstyle="margin-left: 10px;"><!-- Left aligned buttons --><div class="card" id="formulaireInscription" style="display:none;"><div class="card-header header-elements-inline"><h6 class="card-title">Formulaire D'inscription</h6><div class="header-elements"><div class="list-icons"><a class="list-icons-item" data-action="collapse"></a><a class="list-icons-item" data-action="reload"></a><a class="list-icons-item" data-action="remove"></a></div></div></div><fieldset class="mb-3" style="margin-left: 10px;"><div class="form-group row" style="margin-left: 10px;"><label class="col-form-label col-lg-2">civilite :</label><div class="col-lg-8"><select class="form-control form-control-select2" id="option">
+<option value="Monsieur">Monsieur</option>
+<option value="Madame">Madame
+</option></select></div></div><div class="form-group row" style="margin-left: 10px;"><label class="col-form-label col-lg-2">First Name :</label><div class="col-lg-8"><input type="text" class="form-control" placeholder="Enter your username..." id="firstName"></div></div><div class="form-group row" style="margin-left: 10px;"><label class="col-form-label col-lg-2">Last Name :</label><div class="col-lg-8"><input type="text" class="form-control" placeholder="Enter your last Name..." id="lastName"></div></div><legend class="text-uppercase font-size-sm font-weight-bold">Type options</legend><div class="form-group row" style="margin-left: 10px;"><div class="col-md-6"><div class="form-group">
+<label>Email address:
+	<span class="text-danger">*</span>
+</label>
+<input type="email" id="email" name="email" class="form-control required" placeholder="your@email.com"></div></div></div><div class="form-group row" style="margin-left: 10px;"><div class="col-md-6"><div class="form-group">
+<label>Numero de Telephone #:</label>
+<input type="text" name="tel" id="telephone" class="form-control" placeholder="06 20 60 60 60 "></div></div></div><div class="form-group row" style="margin-left: 10px;"><div class="col-md-6"><div class="form-group">
+<label>Adresse  :</label>
+<input type="text" name="adresse" id="adresse" class="form-control" placeholder="25 rue de lille  75012  Paris "></div></div></div><div style="margin-right: 40px;"><div class="text-right"><a href="">
+<button type="button" name="save" id="EnregisterParent" class="btn btn-primary">save</button></a></div></form></div></fieldset></div><!-- formulaire inscription Parents --><!-- formulaire modification   parents --><div style="margin-left: 10px;"><div class="card" id="formulaireModificationParent" style="display:none;"><div class="card-header header-elements-inline"><h6 class="card-title">Formulaire De Modification</h6><div class="header-elements"><div class="list-icons"><a class="list-icons-item" data-action="collapse"></a><a class="list-icons-item" data-action="reload"></a><a class="list-icons-item" data-action="remove"></a></div></div></div><fieldset class="mb-3" style="margin-left: 10px;"><div class="form-group row" style="margin-left: 10px;"><label class="col-form-label col-lg-2">civilite :</label><div class="col-lg-8"><select class="form-control form-control-select2" id="optionCivilite">
+<option value="Monsieur">Monsieur</option>
+<option value="Madame">Madame
+</option></select></div></div><div class="form-group row" style="margin-left: 10px; display:none;"><label class="col-form-label col-lg-2">id :</label><div class="col-lg-8"><input type="text" class="form-control" placeholder="Enter your username..." id="Mid"></div></div><div class="form-group row" style="margin-left: 10px;"><label class="col-form-label col-lg-2">First Name :</label><div class="col-lg-8"><input type="text" class="form-control" placeholder="Enter your username..." id="MfirstName"></div></div><div class="form-group row" style="margin-left: 10px;"><label class="col-form-label col-lg-2">Last Name :</label><div class="col-lg-8"><input type="text" class="form-control" placeholder="Enter your last Name..." id="MlastName"></div></div><legend class="text-uppercase font-size-sm font-weight-bold">Type options</legend><div class="form-group row" style="margin-left: 10px;"><div class="col-md-6"><div class="form-group">
+<label>Email address:
+	<span class="text-danger">*</span>
+</label>
+<input type="email" id="Memail" name="email" class="form-control required" placeholder="your@email.com"></div></div></div><div class="form-group row" style="margin-left: 10px;"><div class="col-md-6"><div class="form-group">
+<label>Numero de Telephone #:</label>
+<input type="text" name="tel" id="Mtelephone" class="form-control" placeholder="06 20 60 60 60 "></div></div></div><div class="form-group row" style="margin-left: 10px;"><div class="col-md-6"><div class="form-group">
+<label>Adresse  :</label>
+<input type="text" name="adresse" id="Madresse" class="form-control" placeholder="25 rue de lille  75012  Paris "></div></div></div><div style="margin-right: 40px;"><div class="text-right"><a href="">
+<button type="button" name="save" id="MEnregisterParent" class="btn btn-primary">save</button></a></div></form></div></fieldset></div><!-- formulaire modification  Parents --><!-- formulaire inscription eleves  --><div style="margin-left: 10px;"><div class="card" id="inscriptionEleve" style="display:none"><div class="card-header header-elements-inline"><h6 class="card-title">Formulaire D'inscription Eleves</h6><div class="header-elements"><div class="list-icons"><a class="list-icons-item" data-action="collapse"></a><a class="list-icons-item" data-action="reload"></a><a class="list-icons-item" data-action="remove"></a></div></div></div><fieldset class="mb-3" style="margin-left: 10px;"><div class="form-group row" style="margin-left: 10px;"><label class="col-form-label col-lg-2">Genrs  :<span class="text-danger">*</span></label><div class="col-lg-8"><select class="form-control form-control-select2" id="optionGener">
+<option value="Fille">fille
+</option>
+<option value="Garçon">Garcon
+</option></select></div></div><div class="form-group row" style="margin-left: 10px;"><label class="col-form-label col-lg-2">First Name :<span class="text-danger">*</span></label><div class="col-lg-8"><input type="text" class="form-control" placeholder="Enter your name..." id="nom"></div></div><div class="form-group row" style="margin-left: 10px;"><label class="col-form-label col-lg-2">Last Name :<span class="text-danger">*</span></label><div class="col-lg-8"><input type="text" class="form-control" placeholder="Enter your prenom..." id="prenom"></div></div><legend class="text-uppercase font-size-sm font-weight-bold">Autre  Informations</legend><div class="form-group row" style="margin-left: 10px;"><label>Date de Naissance :<span class="text-danger">*</span></label><div class="col-md-8"><input type="date" id="date" class="form-control required" placeholder="date"></div></div><div class="form-group row" style="margin-left: 10px;"><label class="col-form-label col-lg-2">classe   :<span class="text-danger">*</span></label><div class="col-lg-8"><select class="form-control form-control-select2" id="optionClasse">
+<option value="A">classe A</option>
+<option value="B">classe B</option>
+<option value="C">classe C</option>
+<option value="D">classe D</option></select></div></div><div class="form-group row" style="margin-left: 10px;"><label class="col-form-label col-lg-2">Image  :</label><div class="col-md-8"><input type="file" name="image" class="form-control" id="image"></div></div><div class="form-group row" style="margin-left: 10px;"><label class="col-form-label col-lg-2">Fiche D'informations  :</label><div class="col-md-8"><input type="file" name="fichier " class="form-control" id="ficheInscription"></div></div><div style="margin-right: 40px;"><div class="text-right"><a href="{{path('parents_liste')}}">
+<button type="button" name="EnregisterEleve" id="EnregisterEleve" class="btn btn-primary">save</button></a></div></form></div></fieldset></div><!-- formulaire inscription eleves  --><!-- formulaire paiement   --><div style="margin-left: 10px;"><div class="card" id="formulairPaiment" style="display:none;"><div class="card-header header-elements-inline"><h6 class="card-title">Infromation Paiement</h6><div class="header-elements"><div class="list-icons"><a class="list-icons-item" data-action="collapse"></a><a class="list-icons-item" data-action="reload"></a><a class="list-icons-item" data-action="remove"></a></div></div></div><fieldset class="mb-3" style="margin-left: 10px;"><legend class="text-uppercase font-size-sm font-weight-bold">Autre  Informations</legend><div class="form-group row" style="margin-left: 10px;"><label class="col-form-label col-lg-2">paiement :</label><div class="col-lg-8"><select class="form-control form-control-select2" id="optionPaiement">
+<option value="">faite le choix
+</option>
+<option value="espece">espece
+</option>
+<option value="cheque">cheque
+</option>
+<option value="cate bancaire">carte bancaire
+</option></select></div></div><div class="form-group row" style="margin-left: 10px;"><label class="col-form-label col-lg-2">date paiement :</label><div class="col-lg-8"><input type="date" class="form-control" id="datePaiment"></div></div><div class="form-group row" style="margin-left: 10px;"><label class="col-form-label col-lg-2">Montant Regle :</label><div class="col-lg-8"><input type="text" class="form-control" placeholder="Enter le montant..." id="paiement"></div></div><div style="margin-right: 40px;"><div class="text-right"><a href="">
+<button type="button" name="savePaiement" id="EnregisterPaiement" class="btn btn-primary">save</button></a></div></form></div></fieldset></div><!-- formulaire inscription paiemenet --><div>{% endblock %}{% block javascripts %}<script src="../../../../assets/inscription.js"></script><script src="../../../../assets/ActionEleve.js"></script><script src="../../../../assets/modification.js"></script><script src="../../../../assets/supprimer.js"></script>{% endblock %}

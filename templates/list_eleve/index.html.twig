@@ -1,0 +1,324 @@
+{% extends 'base.html.twig' %}
+{% block title %} PARTENAIRE {% endblock %}
+
+{% block stylesheets %}
+<style>
+
+formulaireInscription{
+    display: none;
+}
+formulaireModifClient{
+     display: none;
+}
+
+</style>
+{% endblock %}
+{% block body %}
+{% include "header.html.twig" %}
+
+			<div class="content">
+
+             <div class="d-md-flex align-items-md-start" >
+					<!-- Left sidebar component -->
+					<div class="sidebar sidebar-light bg-transparent sidebar-component sidebar-component-left wmin-300 border-0 shadow-0 sidebar-expand-md">
+
+						<!-- Sidebar content -->
+						<div class="sidebar-content" id="profil_parent" >
+							<!-- Navigation -->
+							<div class="card">
+								<div class="card-body p-0">
+									<ul class="nav nav-sidebar mb-2">
+										<li class="nav-item-header">Information Parent Eleve</li>
+										<li class="nav-item">
+											<a href="#profile" class="nav-link active" data-toggle="tab">
+												<i class="icon-user"></i>
+												 Nom : {{parents.nom}}
+											</a>
+										</li>
+										<li class="nav-item">
+											<a href="#schedule" class="nav-link" data-toggle="tab">
+												<i class="icon-user"></i>
+												Prenom :   {{parents.prenom}}
+												
+											</a>
+										</li>
+										<li class="nav-item">
+											<a href="#inbox" class="nav-link" data-toggle="tab">
+												<i class="icon-envelop2"></i>
+												Email :{{parents.email}}
+												
+											</a>
+										</li>
+										<li class="nav-item">
+											<a href="#orders" class="nav-link" data-toggle="tab">
+												<i class="icon-map-marker"></i>
+												Telephone :{{parents.telephone}}
+											
+											</a>
+										</li>
+										<li class="nav-item-divider"></li>
+										<li class="nav-item">
+											<a href="login_advanced.html" class="nav-link" data-toggle="tab">
+												<i class="icon-map-marker"></i>
+												Adresse :{{parents.adresse}}
+											</a>
+										</li>
+									</ul>
+								</div>
+							</div>
+							<!-- /navigation -->
+						</div>
+						<!-- /sidebar content -->
+					</div>
+					<!-- /left sidebar component -->
+
+					<!-- Right content -->
+					<div class="tab-content w-100 overflow-auto">
+                        <div class="tab-pane fade active show" >
+						
+                        	<!-- Sales stats -->
+							<div class="card">
+								<!-- Basic initialization -->
+                            <div class="card" id="liste_eleves" >
+                                <div class="card-header header-elements-inline">
+                                    <h4 class="card-title">liste des Enfants inscrits </h4>
+                                    <div class="header-elements">
+                                        <div class="list-icons">
+                                            <a class="list-icons-item" data-action="collapse"></a>
+                                            <a class="list-icons-item" data-action="reload"></a>
+                                            <a class="list-icons-item" data-action="remove"></a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <table class="table datatable-header-basic">
+                                    <thead>
+                                        <tr class="bg-primary
+">
+                                            <th>Photo</th>
+                                            <th>Sexe</th>
+                                            <th>Nom Eleve</th>
+                                            <th>Prenom Eleve</th>
+                                            <th>Date Niassance </th>
+                                            <th>Classe </th>
+                                           
+                                            <th class="text-center">age de lenfant </th>
+                                            <th class="text-center">action + </th>
+                                        </tr>
+                                        {% for enfant in parents.Eleves %}
+                                            
+                            
+                                        <tr >
+                                             <th>
+                                             <div class="mr-3">
+											   <a href="#">
+												 <img src="../../../../global_assets/images/placeholders/image1.jpg" class="rounded-circle" width="60" height="60" alt="">
+											   </a>
+										      </div>
+                                            </th>
+                                            <th>{{enfant.sexe}}</th>
+                                            <th>{{enfant.nom}}</th>
+                                            <th>{{enfant.prenom}}</th>
+                                            <th>{{enfant.dateNaissance|date('Y-m-d') }}</th>
+                                            <th>{{enfant.classe}}</th>
+                                             <th>{{enfant.age}}</th>
+                                             <th  class="text-center">
+									<div class="list-icons">
+										<div class="dropdown">
+											<a href="#" class="list-icons-item" data-toggle="dropdown">
+												<i class="icon-menu9"></i>
+											</a>
+
+											<div class="dropdown-menu dropdown-menu-right" >
+                                                <a href="{{path('information_eleve',{id: enfant.id})}}" value="{{enfant.id}}"  class="modifier_eleve "><i class="icon-file-pdf"></i> Modifier </a></br>
+												<a href="#" value="{{enfant.id}}"  class="suprmier_eleve"><i class="icon-file-excel"></i> suprimer</a></br>
+											</div>
+										</div>
+									</div>
+								</th>
+                                        </tr>
+                                        {% endfor %}
+                                    </thead>
+                                    <tbody>
+                                </table>
+                            </div>
+
+
+                            <!-- liste des paiements -->
+                              <div class="card" id="liste_paiement" >
+                                <div class="card-header header-elements-inline">
+                                    <h5 class="card-title">liste des Paiements </h5>
+                                    <div class="header-elements">
+                                        <div class="list-icons">
+                                            <a class="list-icons-item" data-action="collapse"></a>
+                                            <a class="list-icons-item" data-action="reload"></a>
+                                            <a class="list-icons-item" data-action="remove"></a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <table class="table datatable-header-basic">
+                                    <thead>
+                                        <tr class="bg-warning">
+                                            <th>type paiement</th>
+                                            <th>date paiement</th>
+                                            <th>montant paiement</th>
+                                            <th class="text-center">total regler</th>
+                                             <th class="text-center">reste</th>
+                                        </tr>
+                                        {% for paiements in parents.paiements %}
+                                        <tr >
+                                            <th>{{paiements.type}}</th>
+                                            <th>{{paiements.datePaiement|date('Y-m-d') }}</th>
+                                            <th>{{paiements.montantRegle}}</th>
+                                             <th></th>
+                                            <th></th>
+                                            
+                                        </tr>
+                                         {% endfor %}
+                                           <tr class="bg">
+                                            <th></th>
+                                            <th></th>
+                                            <th></th>
+                                            <th class="text-center">{% set sum1 = 0 %}    
+                                                                    {% set loopOutput %}               
+                                                                        {% for r in parents.paiements %}    
+                                                                           
+                                                                        {% set sum1 = sum1 + r.montantRegle %}        
+                                                                        {% endfor %}    
+                                                                    {% endset %}
+
+                                                                  total  : {{ sum1 }}  
+                                                                    {{ loopOutput }}</th>
+                                            <th>  {% if sum1 == 500 %}
+                                                <span class="badge badge-success">la somme et regler</span>
+                                            {% elseif sum1 < 500 %}  
+                                                 <span class="badge badge-danger">reste a regle: {{ 500- sum1  }}</span>
+                                             {% elseif sum1 > 500 %}
+                                                 <span class="badge badge-info">on vous doit: {{ sum1 -500 }}</span>
+                                             {% endif %}</td>
+                                            </th>                        
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                </table>
+                             </div>
+
+							</div>
+							<!-- /sales stats -->
+
+                            <div style="margin-left: 10px;">
+                        <div class="card"  id="form_modif_eleve" style="display:none;">
+                            <div class="card-header header-elements-inline">
+                                <h6 class="card-title">Formulaire Modification informations Eleves </h6>
+                                <div class="header-elements">
+                                    <div class="list-icons">
+                                        <a class="list-icons-item" data-action="collapse"></a>
+                                        <a class="list-icons-item" data-action="reload"></a>
+                                        <a class="list-icons-item" data-action="remove"></a>
+                                    </div>
+                                </div>
+                             </div>
+                              <fieldset class="mb-3" style="margin-left: 10px;">
+								<div class="form-group row" style="margin-left: 10px;">
+                                    <label class="col-form-label col-lg-2" >Genrs  : <span class="text-danger">*</span></label>
+                                    <div class="col-lg-8">
+                                        <select class="form-control form-control-select2" id="MoptionGener" >
+												<option value="Fille">fille </option>
+												<option value="Garçon">Garcon </option>
+										</select>
+                                    </div>
+                                </div>
+                                   
+                                   <div class="form-group row" style="margin-left: 10px;">
+                                    <label class="col-form-label col-lg-2" >ID :<span class="text-danger">*</span></label>
+                                    <div class="col-lg-8">
+                                        <input type="text" class="form-control" placeholder="Enter your name..." id="MID">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row" style="margin-left: 10px;">
+                                    <label class="col-form-label col-lg-2" >First Name :<span class="text-danger">*</span></label>
+                                    <div class="col-lg-8">
+                                        <input type="text" class="form-control" placeholder="Enter your name..." id="Mnom">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row" style="margin-left: 10px;">
+                                    <label class="col-form-label col-lg-2">Last Name :<span class="text-danger">*</span></label>
+                                    <div class="col-lg-8">
+                                        <input type="text" class="form-control" placeholder="Enter your prenom..." id="Mprenom">
+                                    </div>
+                                </div>
+                                
+                            
+                                <legend class="text-uppercase font-size-sm font-weight-bold">Autre  Informations</legend>
+
+
+                                <div class="form-group row" style="margin-left: 10px;">  
+								  <label>Date de Naissance : <span class="text-danger">*</span></label>
+									 <div class="col-md-8">
+										<input type="date" id="Mdate" class="form-control required" placeholder="date">
+									 </div>
+                                </div>
+
+                                <div class="form-group row" style="margin-left: 10px;">
+                                  <label class="col-form-label col-lg-2" > classe   : <span class="text-danger">*</span></label>
+                                    <div class="col-lg-8">
+                                        <select class="form-control form-control-select2"  id="MoptionClasse">
+												<option value="A">classe A</option>
+												<option value="B">classe B</option>
+												<option value="C">classe C</option>
+												<option value="D">classe D</option>
+										</select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group row" style="margin-left: 10px;">
+								  <label class="col-form-label col-lg-2">Image  :</label>
+									<div class="col-md-8">
+									    <input type="file" name="image" class="form-control" id="Mimage">
+									</div>
+                                </div>
+                                
+								 <div class="form-group row" style="margin-left: 10px;">
+								  <label class="col-form-label col-lg-2">Fiche D'informations  :</label>
+									<div class="col-md-8">
+									    <input type="file" name="fichier " class="form-control" id="MficheInscription">
+									</div>
+                                </div>
+
+                            
+                             <div style="margin-right: 40px;">
+                               <div class="text-right">
+                                 <a href="{{path('InforsParent_eleves',{id: parents.id})}}" >
+                                  <button type="button" name="Enregister_modif_eleve" id="enregister_modif_eleve" class="btn btn-primary">save</button>
+                                  </a>
+                               </div>
+                               </form>
+                              </div>
+						   </fieldset>
+                    </div>
+				<!-- formulaire modification  infromations eleves  -->
+				    	</div>
+					</div>
+					<!-- /right content -->
+				</div>
+				<!-- /inner container -->
+			</div>
+			<!-- /content area -->
+
+             
+            <div>
+            
+        
+             
+
+{% endblock %}
+{% block javascripts %}
+<script src="../../../../assets/inscription.js"></script>
+<script src="../../../../assets/ActionEleve.js"></script>
+<script src="../../../../assets/modification.js"></script>
+
+
+{% endblock %}

@@ -1,0 +1,280 @@
+
+{% extends 'base.html.twig' %}
+{% block title %} PARTENAIRE {% endblock %}
+
+{% block stylesheets %}
+<style>
+
+formulaireInscription{
+    display: none;
+}
+formulaireModifClient{
+     display: none;
+}
+
+</style>
+{% endblock %}
+{% block body %}
+{% include "header.html.twig" %}
+
+			<div class="content">
+
+              <div class="card" id="liste_enseignant" style="">
+					<div class="card-header header-elements-inline">
+						<h5 class="card-title">liste des Enseignants </h5>
+						<div class="header-elements">
+							<div class="list-icons">
+		                		   <div style="margin-right: 40px;">
+                                <div class="text-right">
+                               <a href="#" ><button type="button" name="" id="Nouveau_Enseignant" class="btn btn-primary">Nouveau </button></a>
+                                </div>
+                        </div>
+		                		<a class="list-icons-item" data-action="reload"></a>
+		                		<a class="list-icons-item" data-action="remove"></a>
+		                	</div>
+	                	</div>
+					</div>
+
+
+					<table class="table datatable-header-basic">
+						<thead>
+							<tr class="bg-danger">
+                    
+								<th>First Name</th>
+								<th>Last Name</th>
+                                <th>Telephone </th>
+                                <th>email </th>
+								<th>contrat</th>
+                                <th>classe </th>
+								<th class="text-center">Actions</th>
+							</tr>
+						</thead>
+						<tbody>
+                    {% for enseignant  in enseignants %}
+							<tr> 
+                                <td>{{enseignant.nom}}</td>
+								<td><a href="">{{enseignant.prenom}}</a></td>
+								<td>{{enseignant.telephone}}</td>
+								<td>{{enseignant.email}}</td>
+							    <td>{{enseignant.Contrat}}</td>
+							    <td>{{enseignant.classe}}</td>
+								
+								<td class="text-center">
+									<div class="list-icons">
+										<div class="dropdown">
+											<a href="#" class="list-icons-item" data-toggle="dropdown">
+												<i class="icon-menu9"></i>
+											</a>
+
+											<div class="dropdown-menu dropdown-menu-right" >
+                                                <a href="#" value="{{enseignant.id}}" class="modifierEnseignant "><i class="icon-file-pdf"></i> Modifier </a></br>
+												<a href="#" value="{{enseignant.id}}" class="suprmierEnseignant"><i class="icon-file-excel"></i> suprimer</a></br>
+												<a href="#" value="{{enseignant.id}}"class="dropdown-item"><i class="icon-file-word"></i> fiche.pdf </a>
+											</div>
+										</div>
+									</div>
+								</td>
+							</tr>
+                     {% endfor %}
+						</tbody>
+					</table>
+				</div>
+				<!-- /basic initialization -->
+
+
+
+                    <!-- formulaire inscription  Enseignant -->
+                      <div style="margin-left: 10px;"  >
+                       
+                        <div class="card"  id="form_Insc_Enseigant" style="display:none;">
+                            <div class="card-header header-elements-inline">
+                                <h6 class="card-title">Formulaire D'inscription</h6>
+                                <div class="header-elements">
+                                    <div class="list-icons">
+                                        <a class="list-icons-item" data-action="collapse"></a>
+                                        <a class="list-icons-item" data-action="reload"></a>
+                                        <a class="list-icons-item" data-action="remove"></a>
+                                    </div>
+                                </div>
+                             </div>
+                               <fieldset class="mb-3" style="margin-left: 10px;">
+								
+                                <div class="form-group row" style="margin-left: 10px;">
+                                    <label class="col-form-label col-lg-2" >First Name :</label>
+                                    <div class="col-lg-8">
+                                        <input type="text" class="form-control" placeholder="Enter your username..." id="firstNameE">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row" style="margin-left: 10px;">
+                                    <label class="col-form-label col-lg-2">Last Name :</label>
+                                    <div class="col-lg-8">
+                                        <input type="text" class="form-control" placeholder="Enter your last Name..." id="lastNameE">
+                                    </div>
+                                </div>
+                                
+                           
+                                <legend class="text-uppercase font-size-sm font-weight-bold">Type options</legend>
+
+
+                                <div class="form-group row" style="margin-left: 10px;">  
+								  <div class="col-md-6">
+									<div class="form-group">
+										<label>Email address: <span class="text-danger">*</span></label>
+										<input type="email" id="emailE" name="email" class="form-control required" placeholder="your@email.com">
+									</div>
+								  </div>
+                                </div>
+
+                                <div class="form-group row" style="margin-left: 10px;">
+								  <div class="col-md-6">
+									<div class="form-group">
+									    <label>Numero de Telephone #:</label>
+									    <input type="text" name="tel" id="telephoneE" class="form-control" placeholder="06 20 60 60 60 " >
+									</div>
+								  </div>
+                                </div>
+                                
+                                
+                                
+                                 <div class="form-group row" style="margin-left: 10px;">
+                                    <label class="col-form-label col-lg-2"  >Contrat : </label>
+                                    <div class="col-lg-8">
+                                        <select class="form-control form-control-select2" id="optionContrat" >
+												<option value="Titulaire">Titulaire </option>
+												<option value="Vacataire">Vacataire </option>
+                                                <option value="Remplacement">Remplacement </option>
+										</select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row" style="margin-left: 10px;">
+                                    <label class="col-form-label col-lg-2"  >classe: </label>
+                                    <div class="col-lg-8">
+                                        <select class="form-control form-control-select2" id="optionClasse" >
+												<option value="Classe A">Classe A</option>
+												<option value="Classe B">Classe B </option>
+                                                <option value="Classe C">Classe C </option>
+										</select>
+                                    </div>
+                                </div>
+                                   
+                           
+                             <div style="margin-right: 40px;">
+                                <div class="text-right">
+                               <a href="" ><button type="button" name="save" id="EnregisterEnseignant" class="btn btn-primary">save</button></a>
+                                </div>
+    
+                            </form>
+                        </div>
+						 </fieldset>
+                    </div>
+				<!-- formulaire inscription Parents -->
+
+                 <!-- formulaire modification   Enseignant -->
+                      <div style="margin-left: 10px;"  >
+                       
+                        <div class="card"  id="form_modif_Enseigant" style="display:none;">
+                            <div class="card-header header-elements-inline">
+                                <h6 class="card-title">Formulaire modification Enseignant</h6>
+                                <div class="header-elements">
+                                    <div class="list-icons">
+                                        <a class="list-icons-item" data-action="collapse"></a>
+                                        <a class="list-icons-item" data-action="reload"></a>
+                                        <a class="list-icons-item" data-action="remove"></a>
+                                    </div>
+                                </div>
+                             </div>
+                               <fieldset class="mb-3" style="margin-left: 10px;">
+
+
+                                 <div class="form-group row" style="margin-left: 10px;display:none">
+								  <div class="col-md-6">
+									<div class="form-group">
+									    <label>id:</label>
+									    <input type="text"  id="Mid" class="form-control"  >
+									</div>
+								  </div>
+                                </div>
+								
+                                <div class="form-group row" style="margin-left: 10px;">
+                                    <label class="col-form-label col-lg-2" >First Name :</label>
+                                    <div class="col-lg-8">
+                                        <input type="text" class="form-control" placeholder="Enter your username..." id="MfirstNameE">
+                                    </div>
+                                </div>
+
+                                <div class="form-group row" style="margin-left: 10px;">
+                                    <label class="col-form-label col-lg-2">Last Name :</label>
+                                    <div class="col-lg-8">
+                                        <input type="text" class="form-control" placeholder="Enter your last Name..." id="MlastNameE">
+                                    </div>
+                                </div>
+                                
+                           
+                                <legend class="text-uppercase font-size-sm font-weight-bold">Type options</legend>
+
+
+                                <div class="form-group row" style="margin-left: 10px;">  
+								  <div class="col-md-6">
+									<div class="form-group">
+										<label>Email address: <span class="text-danger">*</span></label>
+										<input type="email" id="MemailE" name="email" class="form-control required" placeholder="your@email.com">
+									</div>
+								  </div>
+                                </div>
+
+                                <div class="form-group row" style="margin-left: 10px;">
+								  <div class="col-md-6">
+									<div class="form-group">
+									    <label>Numero de Telephone #:</label>
+									    <input type="text" name="tel" id="MtelephoneE" class="form-control" placeholder="06 20 60 60 60 " >
+									</div>
+								  </div>
+                                </div>
+                                
+                                
+                                
+                                 <div class="form-group row" style="margin-left: 10px;">
+                                    <label class="col-form-label col-lg-2"  >Contrat : </label>
+                                    <div class="col-lg-8">
+                                        <select class="form-control form-control-select2" id="MoptionContrat" >
+												<option value="Titulaire">Titulaire </option>
+												<option value="Vacataire">Vacataire </option>
+                                                <option value="Remplacement">Remplacement </option>
+										</select>
+                                    </div>
+                                </div>
+
+                                <div class="form-group row" style="margin-left: 10px;">
+                                    <label class="col-form-label col-lg-2"  >classe: </label>
+                                    <div class="col-lg-8">
+                                        <select class="form-control form-control-select2" id="MoptionClasse" >
+												<option value="Classe A">Classe A</option>
+												<option value="Classe B">Classe B </option>
+                                                <option value="Classe C">Classe C </option>
+										</select>
+                                    </div>
+                                </div>
+                                   
+                           
+                             <div style="margin-right: 40px;">
+                                <div class="text-right">
+                               <a href="" ><button type="button" name="save" id="enregister_modif_enseignant" class="btn btn-primary">save</button></a>
+                                </div>
+    
+                            </form>
+                        </div>
+						 </fieldset>
+                    </div>
+				<!-- formulaire inscription Parents -->
+            <div>
+    
+{% endblock %}
+{% block javascripts %}
+<script src="../../../../assets/inscription.js"></script>
+<script src="../../../../assets/ActionEleve.js"></script>
+<script src="../../../../assets/modification.js"></script>
+<script src="../../../../assets/supprimer.js"></script>
+
+{% endblock %}
